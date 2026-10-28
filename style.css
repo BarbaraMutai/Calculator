@@ -1,0 +1,130 @@
+/* Colors live in variables so light and dark themes only change them here. */
+:root {
+  --bg: #e6edf1;
+  --panel: #ffffff;
+  --ink: #12222d;
+  --muted: #5a6e7b;
+  --line: #c3d1da;
+  --accent: #14697f;
+  --accent-ink: #ffffff;
+  --error: #b3261e;
+  --display-bg: #12222d;
+  --display-ink: #e9f6f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c161d;
+    --panel: #15232d;
+    --ink: #e4eef3;
+    --muted: #92a8b5;
+    --line: #2b4152;
+    --accent: #4cc3dc;
+    --accent-ink: #08222a;
+    --error: #ff8a80;
+    --display-bg: #081117;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.calculator {
+  width: 100%;
+  max-width: 26rem;
+  padding: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+h1 { margin: 0 0 1rem; font-size: 1.1rem; font-weight: 600; color: var(--muted); }
+
+/* Result display: the big, memorable part of the page. */
+.display {
+  min-height: 8rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--display-bg);
+  color: var(--display-ink);
+  border-radius: 0.75rem;
+  text-align: right;
+  overflow: hidden;
+}
+.display p { margin: 0; }
+.display .expression { min-height: 1.4em; font-size: 0.9rem; opacity: 0.7; }
+.display .result {
+  margin-top: 0.5rem;
+  font-size: clamp(2rem, 9vw, 3rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.display .error { margin-top: 0.5rem; color: #ff9e96; font-size: 0.95rem; }
+.display.has-error .result { opacity: 0.35; }
+
+form { display: grid; gap: 0.75rem; }
+label { display: grid; gap: 0.35rem; font-size: 0.85rem; color: var(--muted); }
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+input.invalid { border-color: var(--error); }
+
+.ops { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: transform 0.08s ease;
+}
+button:active:not(:disabled) { transform: scale(0.96); }
+button:disabled { opacity: 0.5; cursor: wait; }
+
+.ops button {
+  padding: 0.8rem 0;
+  font-size: 1.5rem;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 0;
+}
+
+.clear {
+  width: 100%;
+  padding: 0.6rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+/* Highlight the chosen operation and soften the others. */
+.ops.has-choice button { opacity: 0.55; }
+.ops.has-choice button[aria-pressed="true"] {
+  opacity: 1;
+  box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent);
+}
+
+/* Visible keyboard focus for accessibility. */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+}

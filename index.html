@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="calculator">
+    <h1>Calculator</h1>
+
+    <!-- The result display. aria-live makes screen readers announce changes. -->
+    <section class="display" aria-live="polite">
+      <p id="expression" class="expression">Enter a number, choose an operation, then enter a second number.</p>
+      <p id="result" class="result">0</p>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <form id="calc-form" novalidate>
+      <label>First number
+        <input id="a" type="number" step="any" inputmode="decimal" autocomplete="off" required>
+      </label>
+
+      <!-- data-op is the operation name sent to the Python API. -->
+      <div class="ops" role="group" aria-label="Operation">
+        <button type="button" data-op="add" aria-label="Add" aria-pressed="false">+</button>
+        <button type="button" data-op="subtract" aria-label="Subtract" aria-pressed="false">−</button>
+        <button type="button" data-op="multiply" aria-label="Multiply" aria-pressed="false">×</button>
+        <button type="button" data-op="divide" aria-label="Divide" aria-pressed="false">÷</button>
+      </div>
+
+      <label>Second number
+        <input id="b" type="number" step="any" inputmode="decimal" autocomplete="off" required>
+      </label>
+
+      <button type="button" id="clear" class="clear">Clear</button>
+    </form>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
